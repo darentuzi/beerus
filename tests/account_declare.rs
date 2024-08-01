@@ -104,3 +104,45 @@ async fn add_declare_transaction() {
         .await
         .is_ok());
 }
+
+#[tokio::test]
+async fn starkli_declare_workflow() {
+    let (client, _starknet_node) = setup_client_with_mock_starknet_node(vec![
+        ChainId,
+        ClassError,
+        ChainId,
+        Nonce,
+        SpecVersion,
+        EstimateFee,
+        AddDeclareTransaction,
+    ])
+    .await;
+    let block_id = BlockId::BlockTag(BlockTag::Latest);
+    let class_hash = Felt::try_new("0x0").unwrap();
+    let contract_address = Address(class_hash.clone());
+    let declare_transaction = declare_transaction_v2();
+
+    assert!(client.chainId().await.is_ok());
+    assert!(client.getClass(block_id.clone(), class_hash).await.is_err());
+    assert!(client.chainId().await.is_ok());
+    assert!(client.getNonce(block_id.clone(), contract_address).await.is_ok());
+    assert!(client.specVersion().await.is_ok());
+    assert!(client
+        .estimateFee(
+            vec![BroadcastedTxn::BroadcastedDeclareTxn(
+                BroadcastedDeclareTxn::BroadcastedDeclareTxnV2(
+                    declare_transaction.clone(),
+                ),
+            )],
+            vec![],
+            block_id
+        )
+        .await
+        .is_ok());
+    assert!(client
+        .addDeclareTransaction(BroadcastedDeclareTxn::BroadcastedDeclareTxnV2(
+            declare_transaction
+        ))
+        .await
+        .is_ok());
+}
