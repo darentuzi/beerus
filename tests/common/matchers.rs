@@ -45,10 +45,7 @@ impl Response for ChainIdMatcher {
 impl Match for ChainIdMatcher {
     fn matches(&self, request: &Request) -> bool {
         let request = request.body_json::<jsonrpc::Request>().unwrap();
-        match request.method.as_str() {
-            "starknet_chainId" => true,
-            _ => false,
-        }
+        matches!(request.method.as_str(), "starknet_chainId")
     }
 }
 
@@ -85,10 +82,7 @@ impl Default for NonceMatcher {
 impl Match for NonceMatcher {
     fn matches(&self, request: &Request) -> bool {
         let request = request.body_json::<jsonrpc::Request>().unwrap();
-        match request.method.as_str() {
-            "starknet_getNonce" => true,
-            _ => false,
-        }
+        matches!(request.method.as_str(), "starknet_getNonce")
     }
 }
 
@@ -161,10 +155,7 @@ impl ClassMatcher {
 impl Match for ClassMatcher {
     fn matches(&self, request: &Request) -> bool {
         let request = request.body_json::<jsonrpc::Request>().unwrap();
-        match request.method.as_str() {
-            "starknet_getClass" => true,
-            _ => false,
-        }
+        matches!(request.method.as_str(), "starknet_getClass")
     }
 }
 
@@ -207,10 +198,7 @@ impl Default for SpecVersionMatcher {
 impl Match for SpecVersionMatcher {
     fn matches(&self, request: &Request) -> bool {
         let request = request.body_json::<jsonrpc::Request>().unwrap();
-        match request.method.as_str() {
-            "starknet_specVersion" => true,
-            _ => false,
-        }
+        matches!(request.method.as_str(), "starknet_specVersion")
     }
 }
 
@@ -258,10 +246,7 @@ impl Default for EstimateFeeMatcher {
 impl Match for EstimateFeeMatcher {
     fn matches(&self, request: &Request) -> bool {
         let request = request.body_json::<jsonrpc::Request>().unwrap();
-        match request.method.as_str() {
-            "starknet_estimateFee" => true,
-            _ => false,
-        }
+        matches!(request.method.as_str(), "starknet_estimateFee")
     }
 }
 
@@ -307,10 +292,7 @@ impl Default for AddDeclareTransactionMatcher {
 impl Match for AddDeclareTransactionMatcher {
     fn matches(&self, request: &Request) -> bool {
         let request = request.body_json::<jsonrpc::Request>().unwrap();
-        match request.method.as_str() {
-            "starknet_addDeclareTransaction" => true,
-            _ => false,
-        }
+        matches!(request.method.as_str(), "starknet_addDeclareTransaction")
     }
 }
 
