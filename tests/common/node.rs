@@ -5,8 +5,8 @@ use wiremock::{Match, Mock, MockGuard, MockServer, ResponseTemplate};
 use super::{
     api::StarknetMatcher,
     matchers::{
-        ChainIdMatcher, ClassMatcher, EstimateFeeMatcher, NonceMatcher,
-        Response, SpecVersionMatcher,
+        AddDeclareTransactionMatcher, ChainIdMatcher, ClassMatcher,
+        EstimateFeeMatcher, NonceMatcher, Response, SpecVersionMatcher,
     },
 };
 
@@ -28,6 +28,13 @@ impl StarknetNode {
         let mut vec_mock_guards = Vec::with_capacity(requests.len());
         for (request, num_request) in requests.into_iter() {
             let mock_guard = match request {
+                StarknetMatcher::AddDeclareTransaction => {
+                    self.create_mock_guard(
+                        AddDeclareTransactionMatcher::default(),
+                        num_request,
+                    )
+                    .await
+                }
                 StarknetMatcher::ClassError => {
                     self.create_mock_guard(ClassMatcher::error(), num_request)
                         .await

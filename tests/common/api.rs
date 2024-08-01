@@ -7,6 +7,7 @@ use super::node::StarknetNode;
 #[allow(dead_code)]
 #[derive(Eq, Hash, PartialEq)]
 pub enum StarknetMatcher {
+    AddDeclareTransaction,
     ChainId,
     ClassError,
     ClassSuccess,

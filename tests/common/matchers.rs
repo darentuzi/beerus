@@ -207,3 +207,39 @@ impl Response for EstimateFeeMatcher {
         self.response.clone()
     }
 }
+
+pub struct AddDeclareTransactionMatcher {
+    pub response: Value,
+}
+
+impl Default for AddDeclareTransactionMatcher {
+    fn default() -> Self {
+        Self {
+            response: serde_json::json!(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": {
+                    "transaction_hash": "0x0",
+                    "class_hash": "0x1",
+                }
+            }),
+        }
+    }
+}
+
+impl Match for AddDeclareTransactionMatcher {
+    fn matches(&self, request: &Request) -> bool {
+        let request = request.body_json::<jsonrpc::Request>().unwrap();
+        match request.method.as_str() {
+            "starknet_addDeclareTransaction" => true,
+            _ => false,
+        }
+    }
+}
+
+impl Response for AddDeclareTransactionMatcher {
+    fn response(&self) -> Value {
+        self.response.clone()
+    }
+}

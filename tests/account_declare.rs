@@ -6,7 +6,8 @@ use common::{
     api::{
         setup_client_with_mock_starknet_node,
         StarknetMatcher::{
-            ChainId, ClassError, ClassSuccess, EstimateFee, Nonce, SpecVersion,
+            AddDeclareTransaction, ChainId, ClassError, ClassSuccess,
+            EstimateFee, Nonce, SpecVersion,
         },
     },
     constants::declare_transaction_v2,
@@ -89,4 +90,17 @@ async fn spec_version_estimate_fee() {
         )
         .await;
     assert!(res.is_ok());
+}
+
+#[tokio::test]
+async fn add_declare_transaction() {
+    let declare_transaction = declare_transaction_v2();
+    let (client, _starknet_node) =
+        setup_client_with_mock_starknet_node(vec![AddDeclareTransaction]).await;
+    assert!(client
+        .addDeclareTransaction(BroadcastedDeclareTxn::BroadcastedDeclareTxnV2(
+            declare_transaction
+        ))
+        .await
+        .is_ok());
 }

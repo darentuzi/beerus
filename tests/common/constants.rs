@@ -4,6 +4,7 @@ use beerus::gen::{
     ContractClassEntryPointsByType, Felt, SierraEntryPoint,
 };
 
+#[allow(dead_code)]
 pub fn declare_transaction_v2() -> BroadcastedDeclareTxnV2 {
     BroadcastedDeclareTxnV2 {
         compiled_class_hash: Felt::try_new("0x0").unwrap(),
