@@ -35,6 +35,13 @@ impl StarknetNode {
                     )
                     .await
                 }
+                StarknetMatcher::AddDeclareTransactionMalicious => {
+                    self.create_mock_guard(
+                        AddDeclareTransactionMatcher::malicious(),
+                        num_request,
+                    )
+                    .await
+                }
                 StarknetMatcher::ClassError => {
                     self.create_mock_guard(ClassMatcher::error(), num_request)
                         .await
@@ -43,9 +50,23 @@ impl StarknetNode {
                     self.create_mock_guard(ClassMatcher::success(), num_request)
                         .await
                 }
+                StarknetMatcher::ClassMalicious => {
+                    self.create_mock_guard(
+                        ClassMatcher::malicious(),
+                        num_request,
+                    )
+                    .await
+                }
                 StarknetMatcher::ChainId => {
                     self.create_mock_guard(
                         ChainIdMatcher::default(),
+                        num_request,
+                    )
+                    .await
+                }
+                StarknetMatcher::ChainIdMalicious => {
+                    self.create_mock_guard(
+                        ChainIdMatcher::malicious(),
                         num_request,
                     )
                     .await
@@ -57,13 +78,34 @@ impl StarknetNode {
                     )
                     .await
                 }
+                StarknetMatcher::EstimateFeeMalicious => {
+                    self.create_mock_guard(
+                        EstimateFeeMatcher::malicious(),
+                        num_request,
+                    )
+                    .await
+                }
                 StarknetMatcher::Nonce => {
                     self.create_mock_guard(NonceMatcher::default(), num_request)
                         .await
                 }
+                StarknetMatcher::NonceMalicious => {
+                    self.create_mock_guard(
+                        NonceMatcher::malicious(),
+                        num_request,
+                    )
+                    .await
+                }
                 StarknetMatcher::SpecVersion => {
                     self.create_mock_guard(
                         SpecVersionMatcher::default(),
+                        num_request,
+                    )
+                    .await
+                }
+                StarknetMatcher::SpecVersionMalicious => {
+                    self.create_mock_guard(
+                        SpecVersionMatcher::malicious(),
                         num_request,
                     )
                     .await

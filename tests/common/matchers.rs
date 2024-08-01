@@ -10,6 +10,19 @@ pub struct ChainIdMatcher {
     pub response: Value,
 }
 
+impl ChainIdMatcher {
+    pub fn malicious() -> Self {
+        Self {
+            response: serde_json::json!(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": "malicious_result"
+            }),
+        }
+    }
+}
+
 impl Default for ChainIdMatcher {
     fn default() -> Self {
         Self {
@@ -41,6 +54,19 @@ impl Match for ChainIdMatcher {
 
 pub struct NonceMatcher {
     pub response: Value,
+}
+
+impl NonceMatcher {
+    pub fn malicious() -> Self {
+        Self {
+            response: serde_json::json!(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": "malicious_result"
+            }),
+        }
+    }
 }
 
 impl Default for NonceMatcher {
@@ -119,6 +145,17 @@ impl ClassMatcher {
             }),
         }
     }
+
+    pub fn malicious() -> Self {
+        Self {
+            response: serde_json::json!(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": "malicious"
+            }),
+        }
+    }
 }
 
 impl Match for ClassMatcher {
@@ -139,6 +176,19 @@ impl Response for ClassMatcher {
 
 pub struct SpecVersionMatcher {
     pub response: Value,
+}
+
+impl SpecVersionMatcher {
+    pub fn malicious() -> Self {
+        Self {
+            response: serde_json::json!(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": 42
+            }),
+        }
+    }
 }
 
 impl Default for SpecVersionMatcher {
@@ -172,6 +222,19 @@ impl Response for SpecVersionMatcher {
 
 pub struct EstimateFeeMatcher {
     pub response: Value,
+}
+
+impl EstimateFeeMatcher {
+    pub fn malicious() -> Self {
+        Self {
+            response: serde_json::json!(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": "malicious"
+            }),
+        }
+    }
 }
 
 impl Default for EstimateFeeMatcher {
@@ -210,6 +273,19 @@ impl Response for EstimateFeeMatcher {
 
 pub struct AddDeclareTransactionMatcher {
     pub response: Value,
+}
+
+impl AddDeclareTransactionMatcher {
+    pub fn malicious() -> Self {
+        Self {
+            response: serde_json::json!(
+            {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": 42
+            }),
+        }
+    }
 }
 
 impl Default for AddDeclareTransactionMatcher {

@@ -8,12 +8,18 @@ use super::node::StarknetNode;
 #[derive(Eq, Hash, PartialEq)]
 pub enum StarknetMatcher {
     AddDeclareTransaction,
+    AddDeclareTransactionMalicious,
     ChainId,
+    ChainIdMalicious,
     ClassError,
     ClassSuccess,
+    ClassMalicious,
     EstimateFee,
+    EstimateFeeMalicious,
     Nonce,
+    NonceMalicious,
     SpecVersion,
+    SpecVersionMalicious,
 }
 
 #[allow(dead_code)]

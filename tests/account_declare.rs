@@ -6,8 +6,10 @@ use common::{
     api::{
         setup_client_with_mock_starknet_node,
         StarknetMatcher::{
-            AddDeclareTransaction, ChainId, ClassError, ClassSuccess,
-            EstimateFee, Nonce, SpecVersion,
+            AddDeclareTransaction, AddDeclareTransactionMalicious, ChainId,
+            ChainIdMalicious, ClassError, ClassMalicious, ClassSuccess,
+            EstimateFee, EstimateFeeMalicious, Nonce, NonceMalicious,
+            SpecVersion, SpecVersionMalicious,
         },
     },
     constants::declare_transaction_v2,
@@ -145,4 +147,44 @@ async fn starkli_declare_workflow() {
         ))
         .await
         .is_ok());
+}
+
+#[tokio::test]
+async fn malicious_data_results_in_err() {
+    let (client, _starknet_node) = setup_client_with_mock_starknet_node(vec![
+        AddDeclareTransactionMalicious,
+        ChainIdMalicious,
+        ClassMalicious,
+        EstimateFeeMalicious,
+        NonceMalicious,
+        SpecVersionMalicious,
+    ])
+    .await;
+    let block_id = BlockId::BlockTag(BlockTag::Latest);
+    let class_hash = Felt::try_new("0x0").unwrap();
+    let contract_address = Address(class_hash.clone());
+    let declare_transaction = declare_transaction_v2();
+
+    assert!(client
+        .addDeclareTransaction(BroadcastedDeclareTxn::BroadcastedDeclareTxnV2(
+            declare_transaction.clone()
+        ))
+        .await
+        .is_err());
+    assert!(client.chainId().await.is_err());
+    assert!(client
+        .estimateFee(
+            vec![BroadcastedTxn::BroadcastedDeclareTxn(
+                BroadcastedDeclareTxn::BroadcastedDeclareTxnV2(
+                    declare_transaction.clone(),
+                ),
+            )],
+            vec![],
+            block_id.clone()
+        )
+        .await
+        .is_err());
+    assert!(client.getClass(block_id.clone(), class_hash).await.is_err());
+    assert!(client.getNonce(block_id, contract_address).await.is_err());
+    assert!(client.specVersion().await.is_err());
 }
